@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Your City API Documentation</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="content">
+    <header>
+        <h1>Show Your City API Documentation</h1>
+    </header>
+
+    <section id="apikeys">
+        <h2>API keys</h2>
+        <p><a href="/auth/api_key">Request a personal API key.</a></p>
+
+        <p>An API key is required for all requests.</p>
+
+        <p>If an API key is not provided the following error is given:</p>
+        <pre class="lager">{
+            "errors": {
+            "status": 401,
+            "source": "/products",
+            "title": "Valid API key",
+            "detail": "No valid API key provided."
+        }
+}</pre>
+    </section>
+
+    <section id="auth">
+        <h3>Register</h3>
+        <pre class="lager">POST /v2/auth/register</pre>
+        <p>Required paramters:</p>
+        <pre class="lager">api_key
+email
+password</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    "data": {
+        "message": "User successfully registered."
+    }
+}</pre>
+
+        <h3>Login</h3>
+        <pre class="lager">POST /v2/auth/login</pre>
+        <pre class="lager">api_key
+email
+password</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    "data": {
+        "type": "success",
+        "message": "User logged in",
+        "user": {
+            "api_key": "...",
+            "email": "unknown@example.com"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey..."
+    }
+}</pre>
+        <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="inner-footer">
+        <p>&copy; <a href="https://emilfolino.se">Emil Folino</a></p>
+        <p>The API is used in a course given in the Webprogrammering Cluster <a href="https://dbwebb.se">dbwebb</a> at <a href="https://bth.se">Blekinge Tekniska Högskola</a>.</p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
