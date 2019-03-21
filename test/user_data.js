@@ -16,6 +16,7 @@ const db = require("../db/database.js");
 chai.use(chaiHttp);
 
 let apiKey = "";
+let token = "";
 
 describe('user_data', () => {
     before(() => {
@@ -238,6 +239,74 @@ describe('user_data', () => {
                     res.body.data.should.be.an("object");
                     res.body.data.should.have.property("email");
                     res.body.data.email.should.equal("test@example.com");
+
+                    done();
+                });
+        });
+    });
+
+    describe('GET /data', () => {
+        it('should get 401 as we do not provide valid api_key', (done) => {
+            chai.request(server)
+                .get("/data")
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 401 as we do not provide valid token', (done) => {
+            chai.request(server)
+                .get("/data?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 200 login user', (done) => {
+            let user = {
+                email: "test@example.com",
+                password: "123test",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/login")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("message");
+                    res.body.data.message.should.equal("User logged in");
+
+                    res.body.data.should.have.property("user");
+                    res.body.data.user.should.have.property("email");
+                    res.body.data.user.email.should.equal("test@example.com");
+
+                    res.body.data.should.have.property("token");
+                    token = res.body.data.token;
+
+                    done();
+                });
+        });
+
+        it('should get 200 as we do provide token', (done) => {
+            chai.request(server)
+                .get("/data?api_key=" + apiKey)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(0);
 
                     done();
                 });

@@ -8,6 +8,7 @@ const app = express();
 
 const auth = require("./route/auth.js");
 const users = require("./route/users.js");
+const data = require("./route/data.js");
 
 const authModel = require("./models/auth.js");
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.all('*', authModel.checkAPIKey);
 
 app.use("/users", users);
+app.use("/data", data);
 app.use("/", auth);
 
 const server = app.listen(port, () => {
