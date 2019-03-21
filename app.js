@@ -7,6 +7,8 @@ const cors = require('cors');
 const app = express();
 
 const auth = require("./route/auth.js");
+const users = require("./route/users.js");
+
 const authModel = require("./models/auth.js");
 
 const port = 8666;
@@ -31,6 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.all('*', authModel.checkAPIKey);
 
+app.use("/users", users);
 app.use("/", auth);
 
 const server = app.listen(port, () => {

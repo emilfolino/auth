@@ -42,7 +42,7 @@
 
         <h3>Register</h3>
         <pre class="lager">POST /register</pre>
-        <p>Required paramters:</p>
+        <p>Required parameters:</p>
         <pre class="lager">api_key
 email
 password</pre>
@@ -55,6 +55,7 @@ password</pre>
 
         <h3>Login</h3>
         <pre class="lager">POST /login</pre>
+        <p>Required parameters:</p>
         <pre class="lager">api_key
 email
 password</pre>
@@ -71,6 +72,22 @@ password</pre>
     }
 }</pre>
         <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
+
+    </section>
+
+    <section id="users">
+        <h2>Users</h2>
+
+        <pre class="lager">GET /users?api_key=[API_KEY]</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    "data": [
+        {
+            "user_id": 1,
+            "email": "test@test.se"
+        }
+    ]
+}</pre>
 
     </section>
 </main>

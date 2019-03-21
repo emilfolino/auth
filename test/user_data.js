@@ -169,7 +169,78 @@ describe('user_data', () => {
         });
     });
 
-    describe('GET /data', () => {
+    describe('GET /users', () => {
+        it('should get 401 as we do not provide valid api_key', (done) => {
+            chai.request(server)
+                .get("/users")
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
 
+                    done();
+                });
+        });
+
+        it('200 getting users for api key', (done) => {
+            chai.request(server)
+                .get("/users?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(0);
+
+                    done();
+                });
+        });
+
+        it('should get 201 registering user for apiKey', (done) => {
+            let user = {
+                email: "test@example.com",
+                password: "123test",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/register")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("message");
+                    res.body.data.message.should.equal("User successfully registered.");
+
+                    done();
+                });
+        });
+
+        it('200 getting users for api key, 1 user', (done) => {
+            chai.request(server)
+                .get("/users?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(1);
+
+                    done();
+                });
+        });
+
+        it('200 getting user by id 1', (done) => {
+            chai.request(server)
+                .get("/users/1?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property("data");
+                    res.body.data.should.be.an("object");
+                    res.body.data.should.have.property("email");
+                    res.body.data.email.should.equal("test@example.com");
+
+                    done();
+                });
+        });
     });
 });
