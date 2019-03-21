@@ -171,7 +171,7 @@ const auth = {
                     errorMessages.push(err);
                 }
 
-                db.run("DELETE FROM images WHERE apiKey = ?",
+                db.run("DELETE FROM user_data WHERE apiKey = ?",
                     apiKey,
                     (err) => {
                         if (err) {

@@ -3,11 +3,11 @@ CREATE TABLE IF NOT EXISTS apikeys (
     email VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS images (
-    url VARCHAR(255) NOT NULL,
-    latitude REAL,
-    longitude REAL,
+CREATE TABLE IF NOT EXISTS user_data (
+    artefact TEXT NOT NULL,
+    userId INTEGER NOT NULL,
     apiKey VARCHAR(32) NOT NULL,
+    FOREIGN KEY(userId) REFERENCES users(ROWID)
     FOREIGN KEY(apiKey) REFERENCES apikeys(key)
 );
 

@@ -25,7 +25,7 @@ describe('auth', () => {
                     console.error("Could not empty test DB table orders", err.message);
                 }
 
-                db.run("DELETE FROM images", (err) => {
+                db.run("DELETE FROM user_data", (err) => {
                     if (err) {
                         console.error("Could not empty test DB table orders", err.message);
                     }

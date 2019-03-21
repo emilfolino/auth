@@ -33,6 +33,8 @@ app.all('*', authModel.checkAPIKey);
 
 app.use("/", auth);
 
-const server = app.listen(port, () => console.log('auth api listening on port ' + port));
+const server = app.listen(port, () => {
+    console.log('auth api listening on port ' + port);
+});
 
 module.exports = server;
