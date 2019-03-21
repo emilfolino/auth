@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Show Your City API Documentation</title>
+    <title>auth Documentation</title>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
 
@@ -13,14 +13,16 @@
 </head>
 <body>
 
-<main class="content">
-    <header>
-        <h1>Show Your City API Documentation</h1>
-    </header>
+<header>
+    <div class="inner-header">
+        <h1>auth Documentation</h1>
+    </div>
+</header>
 
+<main class="content">
     <section id="apikeys">
         <h2>API keys</h2>
-        <p><a href="/auth/api_key">Request a personal API key.</a></p>
+        <p><a href="/api_key">Request a personal API key.</a></p>
 
         <p>An API key is required for all requests.</p>
 
@@ -36,8 +38,10 @@
     </section>
 
     <section id="auth">
+        <h2>Register and login</h2>
+
         <h3>Register</h3>
-        <pre class="lager">POST /v2/auth/register</pre>
+        <pre class="lager">POST /register</pre>
         <p>Required paramters:</p>
         <pre class="lager">api_key
 email
@@ -50,7 +54,7 @@ password</pre>
 }</pre>
 
         <h3>Login</h3>
-        <pre class="lager">POST /v2/auth/login</pre>
+        <pre class="lager">POST /login</pre>
         <pre class="lager">api_key
 email
 password</pre>

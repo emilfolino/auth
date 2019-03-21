@@ -18,6 +18,10 @@ body {
   flex-direction: column;
 }
 
+header {
+    background-color: #ff714c;
+}
+
 .content {
   flex: 1 0 auto;
 }
@@ -39,8 +43,8 @@ main {
 }
 
 pre.lager {
-    background: #ace;
-    border-left: 3px solid #57c;
+    background: #ff714c;
+    border-left: 6px solid #7f1a00;
     padding: 10px;
     box-sizing: border-box;
     margin-bottom: 1.4rem;
@@ -74,11 +78,16 @@ ol {
 }
 
 .footer {
-    background-color: #13395f;
+    background-color: #7f1a00;
     color: white;
     padding: 4rem 0;
 }
 
+.inner-header {
+    padding: 1rem 0 0 0;
+}
+
+.inner-header,
 .inner-footer {
     width: 98%;
     margin: 0 auto;
@@ -125,6 +134,7 @@ input[type=submit] {
         margin: 20px auto;
     }
 
+    .inner-header,
     .inner-footer {
         width: 960px;
     }
