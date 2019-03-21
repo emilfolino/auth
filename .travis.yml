@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+    - "10"
+
+sudo: false
+
+git:
+    submodules: false
+
+before_script:
+    - npm install
+
+script:
+    - npm test
