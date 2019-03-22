@@ -20,6 +20,16 @@
 </header>
 
 <main class="content">
+    <section id="toc">
+        <ol>
+            <li><a href="#apikeys">API keys</a></li>
+            <li><a href="#auth">Register and login</a></li>
+            <li><a href="#users">Users</a></li>
+            <li><a href="#data">User data</a></li>
+        </ol>
+    </section>
+
+
     <section id="apikeys">
         <h2>API keys</h2>
         <p><a href="/api_key">Request a personal API key.</a></p>
@@ -78,6 +88,7 @@ password</pre>
     <section id="users">
         <h2>Users</h2>
 
+        <h3>Get all users</h3>
         <pre class="lager">GET /users?api_key=[API_KEY]</pre>
         <p>Result:</p>
         <pre class="lager">{
@@ -89,6 +100,38 @@ password</pre>
     ]
 }</pre>
 
+        <h3>Get specific user</h3>
+        <pre class="lager">GET /users/1?api_key=[API_KEY]</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    "data": {
+        "user_id": 1,
+        "email": "test@test.se"
+    }
+}</pre>
+
+    </section>
+
+    <section id="data">
+        <h2>User data</h2>
+
+        <p>
+            To use the following route, you need a valid JSON Web Token (JWT) set in the HTTP-header.<br />
+            The 'x-access-token' header should contain the JWT.
+        </p>
+
+
+        <h3>Get all data for authenticated user</h3>
+        <pre class="lager">GET /data?api_key=[API_KEY]</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    "data": [
+        {
+            "user_id": 1,
+            "email": "test@test.se"
+        }
+    ]
+}</pre>
     </section>
 </main>
 
