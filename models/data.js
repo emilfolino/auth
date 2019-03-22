@@ -13,7 +13,7 @@ const data = {
         db.all(
             sql,
             req.user.email,
-            req.user.apiKey,
+            req.user.api_key,
             function (err, rows) {
                 if (err) {
                     return res.status(500).json({

@@ -377,11 +377,28 @@ describe('user_data', () => {
                 .send(data)
                 .set("x-access-token", token)
                 .end((err, res) => {
+                    console.log(res.body);
+
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("data");
                     res.body.data.should.have.property("id");
                     res.body.data.should.have.property("artefact");
+
+                    done();
+                });
+        });
+
+        it('should get 200 with 1 artefact', (done) => {
+            chai.request(server)
+                .get("/data?api_key=" + apiKey)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    console.log(res.body);
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(1);
 
                     done();
                 });
