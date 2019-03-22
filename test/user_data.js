@@ -311,5 +311,80 @@ describe('user_data', () => {
                     done();
                 });
         });
+
+        it('should get 401 as we do not provide api key', (done) => {
+            const artefact = {
+                latitude: 56.18185835,
+                longitude: 15.5911037,
+                place: "BTH"
+            };
+
+            const data = {
+                artefact: JSON.stringify(artefact),
+                // api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/data")
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 401 as we do not provide valid token', (done) => {
+            const artefact = {
+                latitude: 56.18185835,
+                longitude: 15.5911037,
+                place: "BTH"
+            };
+
+            const data = {
+                artefact: JSON.stringify(artefact),
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/data")
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 201 as we create artefact', (done) => {
+            const artefact = {
+                latitude: 56.18185835,
+                longitude: 15.5911037,
+                place: "BTH"
+            };
+
+            const data = {
+                artefact: JSON.stringify(artefact),
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/data")
+                .send(data)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("id");
+                    res.body.data.should.have.property("artefact");
+
+                    done();
+                });
+        });
     });
 });

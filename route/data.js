@@ -9,4 +9,9 @@ router.get('/',
     (req, res) => data.getAllDataForUser(res, req)
 );
 
+router.post('/',
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => data.createData(res, req)
+);
+
 module.exports = router;
