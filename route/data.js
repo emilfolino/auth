@@ -14,4 +14,14 @@ router.post('/',
     (req, res) => data.createData(res, req)
 );
 
+router.put('/',
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => data.updateData(res, req)
+);
+
+router.delete('/',
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => data.deleteData(res, req)
+);
+
 module.exports = router;

@@ -98,6 +98,122 @@ const data = {
                         return data.getData(res, this.lastID, 201);
                     });
             });
+    },
+
+    updateData: function (res, req) {
+        // req contains user object set in checkToken middleware
+        if (Number.isInteger(parseInt(req.body.id))) {
+            let sql = "SELECT ROWID as id FROM users " +
+                "WHERE email = ? and apiKey = ?";
+
+            db.get(
+                sql,
+                req.user.email,
+                req.user.api_key,
+                function (err, row) {
+                    if (err) {
+                        return res.status(500).json({
+                            error: {
+                                status: 500,
+                                path: "PUT /data SELECT userId",
+                                title: "Database error",
+                                message: err.message
+                            }
+                        });
+                    }
+
+                    let sql = "UPDATE user_data SET artefact = ?" +
+                        " WHERE userId = ? AND apiKey = ? AND ROWID = ?";
+
+                    db.run(
+                        sql,
+                        req.body.artefact,
+                        row.id,
+                        req.user.api_key,
+                        req.body.id,
+                        function (err) {
+                            if (err) {
+                                return res.status(500).json({
+                                    error: {
+                                        status: 500,
+                                        path: "PUT /data UPDATE",
+                                        title: "Database error",
+                                        message: err.message
+                                    }
+                                });
+                            }
+
+                            return res.status(204).send();
+                        });
+                });
+        } else {
+            return res.status(500).json({
+                error: {
+                    status: 500,
+                    path: "PUT /data no id",
+                    title: "No id",
+                    message: "No data id provided"
+                }
+            });
+        }
+    },
+
+    deleteData: function (res, req) {
+        // req contains user object set in checkToken middleware
+
+        if (Number.isInteger(parseInt(req.body.id))) {
+            let sql = "SELECT ROWID as id FROM users " +
+                "WHERE email = ? and apiKey = ?";
+
+            db.get(
+                sql,
+                req.user.email,
+                req.user.api_key,
+                function (err, row) {
+                    if (err) {
+                        return res.status(500).json({
+                            error: {
+                                status: 500,
+                                path: "DELETE /data SELECT userId",
+                                title: "Database error",
+                                message: err.message
+                            }
+                        });
+                    }
+
+                    let sql = "DELETE FROM user_data" +
+                        " WHERE userId = ? AND apiKey = ? AND ROWID = ?";
+
+                    db.run(
+                        sql,
+                        row.id,
+                        req.user.api_key,
+                        req.body.id,
+                        function (err) {
+                            if (err) {
+                                return res.status(500).json({
+                                    error: {
+                                        status: 500,
+                                        path: "DELETE /data DELETE",
+                                        title: "Database error",
+                                        message: err.message
+                                    }
+                                });
+                            }
+
+                            return res.status(204).send();
+                        });
+                });
+        } else {
+            return res.status(500).json({
+                error: {
+                    status: 500,
+                    path: "DELETE /data no_id",
+                    title: "No data id",
+                    message: "No data id provided"
+                }
+            });
+        }
     }
 };
 

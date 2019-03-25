@@ -26,6 +26,7 @@
             <li><a href="#auth">Register and login</a></li>
             <li><a href="#users">Users</a></li>
             <li><a href="#data">User data</a></li>
+            <li><a href="#code">Code examples</a></li>
         </ol>
     </section>
 
@@ -123,15 +124,235 @@ password</pre>
 
         <h3>Get all data for authenticated user</h3>
         <pre class="lager">GET /data?api_key=[API_KEY]</pre>
+        <p>User data has the following attributes:</p>
+        <pre class="lager">id
+artefact
+api_key</pre>
+        <p>In the following examples the artefact entity is used to store JSON-data. But any type of data can be stored for instance URLs, likes, upvotes or anything that can be stored as text.</p>
         <p>Result:</p>
         <pre class="lager">{
-    "data": [
+    data: [
         {
-            "user_id": 1,
-            "email": "test@test.se"
+            id: 1,
+            email: 'test@example.com',
+            artefact: '{"latitude":56.18185835,"longitude":15.5911037,"place":"BTH"}'
         }
     ]
 }</pre>
+
+        <h3>Create data for authenticated user</h3>
+        <pre class="lager">POST /data</pre>
+        <p>Required params:</p>
+        <pre class="lager">artefact
+api_key</pre>
+        <p>Result:</p>
+        <pre class="lager">{
+    data:  {
+        id: 1,
+        email: 'test@example.com',
+        artefact: '{"latitude":56.18185835,"longitude":15.5911037,"place":"BTH"}'
+    }
+}</pre>
+
+        <h3>Update data for authenticated user</h3>
+        <pre class="lager">PUT /data</pre>
+        <p>Required params:</p>
+        <pre class="lager">id
+artefact
+api_key</pre>
+        <p>Result:</p>
+        <pre class="lager">204 No Content</pre>
+
+        <h3>Delete data for authenticated user</h3>
+        <pre class="lager">PUT /data</pre>
+        <p>Required params:</p>
+        <pre class="lager">id
+api_key</pre>
+        <p>Result:</p>
+        <pre class="lager">204 No Content</pre>
+    </section>
+
+    <section id="code">
+        <h2>Code Examples</h2>
+
+        <h3>JavaScript fetch</h3>
+        <pre class="lager">POST /register</pre>
+        <pre>
+    <code class="javascript">var user = {
+    email: "test@test.se",
+    password: "test1234",
+    api_key: [API_KEY]
+};
+
+fetch("https://auth.emilfolino.se/register", {
+    body: JSON.stringify(user),
+    headers: {
+        'content-type': 'application/json'
+    },
+    method: 'POST'
+})
+.then(function (response) {
+    return response.json();
+}).then(function(result) {
+
+});</code>
+</pre>
+
+
+        <br>
+        <pre class="lager">POST /login</pre>
+        <pre>
+        <code class="javascript">var user = {
+    email: "test@test.se",
+    password: "test1234",
+    api_key: [API_KEY]
+};
+
+fetch("https://auth.emilfolino.se/login", {
+    body: JSON.stringify(user),
+    headers: {
+        'content-type': 'application/json'
+    },
+    method: 'POST'
+})
+.then(function (response) {
+    return response.json();
+}).then(function(result) {
+    var token = result.data.token;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">GET /users</pre>
+        <pre>
+            <code class="javascript">fetch("https://auth.emilfolino.se/users?api_key=[API_KEY]")
+.then(function (response) {
+    return response.json();
+}).then(function(result) {
+    var users = result.data;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">GET /data</pre>
+        <pre>
+            <code class="javascript">fetch("https://auth.emilfolino.se/data?api_key=[API_KEY]", {
+    headers: {
+      'x-access-token': [TOKEN]
+    }
+})
+.then(function (response) {
+    return response.json();
+}).then(function(result) {
+    var allData = result.data;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">POST /data</pre>
+        <pre>
+            <code class="javascript">var data = {
+    artefact: '{"latitude":56.18185835,"longitude":15.5911037,"place":"BTH"}',
+    api_key: [API_KEY]
+};
+
+fetch("https://auth.emilfolino.se/data", {
+    body: JSON.stringify(data),
+    headers: {
+        'content-type': 'application/json',
+        'x-access-token': [TOKEN]
+    },
+    method: 'POST'
+})
+.then(function (response) {
+    return response.json();
+}).then(function(result) {
+
+});</code>
+</pre>
+
+
+        <h3>Mithril</h3>
+        <pre class="lager">POST /register</pre>
+        <pre>
+    <code class="javascript">var user = {
+    email: "test@test.se",
+    password: "test1234",
+    api_key: [API_KEY]
+};
+
+m.request({
+    url: "https://auth.emilfolino.se/register",
+    data: user,
+    method: 'POST'
+}).then(function(result) {
+
+});</code>
+</pre>
+
+
+        <br>
+        <pre class="lager">POST /login</pre>
+        <pre>
+        <code class="javascript">var user = {
+    email: "test@test.se",
+    password: "test1234",
+    api_key: [API_KEY]
+};
+
+m.request({
+    url: "https://auth.emilfolino.se/login",
+    data: user,
+    method: 'POST'
+}).then(function(result) {
+    var token = result.data.token;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">GET /users</pre>
+        <pre>
+            <code class="javascript">m.request({
+    method: "GET",
+    url: "https://auth.emilfolino.se/users?api_key=[API_KEY]"
+}).then(function(result) {
+    var users = result.data;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">GET /data</pre>
+        <pre>
+            <code class="javascript">m.request({
+    method: "GET",
+    url: "https://auth.emilfolino.se/data?api_key=[API_KEY]",
+    headers: {
+      'x-access-token': [TOKEN]
+    }
+}).then(function(result) {
+    var allData = result.data;
+});</code>
+</pre>
+
+        <br>
+        <pre class="lager">POST /data</pre>
+        <pre>
+            <code class="javascript">var data = {
+    artefact: '{"latitude":56.18185835,"longitude":15.5911037,"place":"BTH"}',
+    api_key: [API_KEY]
+};
+
+m.request({
+    url: "https://auth.emilfolino.se/login",
+    data: user,
+    method: 'POST',
+    headers: {
+      'x-access-token': [TOKEN]
+    }
+}).then(function(result) {
+
+});</code>
+</pre>
     </section>
 </main>
 

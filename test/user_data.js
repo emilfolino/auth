@@ -377,8 +377,6 @@ describe('user_data', () => {
                 .send(data)
                 .set("x-access-token", token)
                 .end((err, res) => {
-                    console.log(res.body);
-
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("data");
@@ -394,11 +392,170 @@ describe('user_data', () => {
                 .get("/data?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
-                    console.log(res.body);
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.equal(1);
+
+                    done();
+                });
+        });
+
+        it('should get 401 as we do not provide valid token', (done) => {
+            const artefact = {
+                latitude: 56.26116,
+                longitude: 15.626451,
+                place: "Rödeby Skidbacke"
+            };
+
+            const data = {
+                id: 1,
+                artefact: JSON.stringify(artefact),
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .put("/data")
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 500 as we do not provide id', (done) => {
+            const artefact = {
+                latitude: 56.26116,
+                longitude: 15.626451,
+                place: "Rödeby Skidbacke"
+            };
+
+            const data = {
+                // id: 1,
+                artefact: JSON.stringify(artefact),
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .put("/data")
+                .set("x-access-token", token)
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(500);
+
+                    done();
+                });
+        });
+
+        it('should get 204 as we do provide valid token', (done) => {
+            const artefact = {
+                latitude: 56.26116,
+                longitude: 15.626451,
+                place: "Rödeby Skidbacke"
+            };
+
+            const data = {
+                id: 1,
+                artefact: JSON.stringify(artefact),
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .put("/data")
+                .set("x-access-token", token)
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200 with 1 changed artefact', (done) => {
+            chai.request(server)
+                .get("/data?api_key=" + apiKey)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(1);
+
+                    res.body.data[0].should.have.property("artefact");
+                    let parsedArtefact = JSON.parse(res.body.data[0].artefact);
+
+                    parsedArtefact.should.be.an("object");
+                    parsedArtefact.should.have.property("place");
+                    parsedArtefact.place.should.equal("Rödeby Skidbacke");
+
+                    done();
+                });
+        });
+
+        it('should get 401 as we do not provide valid token', (done) => {
+            const data = {
+                id: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .delete("/data")
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 500 as we do not provide id', (done) => {
+            const data = {
+                // id: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .delete("/data")
+                .set("x-access-token", token)
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(500);
+
+                    done();
+                });
+        });
+
+        it('should get 204 as we do provide valid token', (done) => {
+            const data = {
+                id: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .delete("/data")
+                .set("x-access-token", token)
+                .send(data)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200 with 0 artefacts', (done) => {
+            chai.request(server)
+                .get("/data?api_key=" + apiKey)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.equal(0);
 
                     done();
                 });
