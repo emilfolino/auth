@@ -283,7 +283,7 @@ fetch("https://auth.emilfolino.se/data", {
 
 m.request({
     url: "https://auth.emilfolino.se/register",
-    data: user,
+    body: user,
     method: 'POST'
 }).then(function(result) {
 
@@ -302,7 +302,7 @@ m.request({
 
 m.request({
     url: "https://auth.emilfolino.se/login",
-    data: user,
+    body: user,
     method: 'POST'
 }).then(function(result) {
     var token = result.data.token;
@@ -343,8 +343,8 @@ m.request({
 };
 
 m.request({
-    url: "https://auth.emilfolino.se/login",
-    data: user,
+    url: "https://auth.emilfolino.se/data",
+    body: data,
     method: 'POST',
     headers: {
       'x-access-token': [TOKEN]
