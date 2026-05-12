@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "pretest": "bash db/reset_test_db.bash",
-        "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
+        "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
         "posttest": "npm run eslint",
         "start": "node app.js",
         "clean": "rm -rf node_modules package-lock.json",
@@ -15,24 +15,27 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@eslint/eslintrc": "^3.3.5",
+        "@eslint/js": "^10.0.1",
         "chai": "^4.2.0",
         "chai-http": "^4.2.1",
-        "eslint": "^5.15.3",
-        "eslint-plugin-react": "^7.12.4",
+        "globals": "^17.6.0",
         "javascript-style-guide": "^1.0.1",
-        "mocha": "^10.3.0",
+        "mocha": "^11.7.5",
         "node-html-parser": "^1.1.12",
-        "nyc": "^14.1.1"
+        "nyc": "^18.0.0"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
+        "dotenv": "^17.4.2",
         "ejs": "^3.1.9",
         "email-validator": "^2.0.4",
+        "eslint": "^10.3.0",
         "express": "^4.16.4",
         "hat": "0.0.3",
         "jsonwebtoken": "^9.0.2",
         "morgan": "^1.9.1",
-        "sqlite3": "^5.1.7"
+        "sqlite3": "^6.0.1"
     }
 }
