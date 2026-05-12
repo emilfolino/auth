@@ -111,6 +111,31 @@ password</pre>
     }
 }</pre>
 
+                <h3>Update password for user</h3>
+        <pre class="lager">PUT /users</pre>
+        <p>Result:</p>
+        <pre class="lager">204 No Content</pre>
+
+        <p>Code example:</p>
+                <pre>
+        <code class="javascript">let user = {
+    email: "test@test.se",
+    password: "test5678", // sets new password to test5678
+    api_key: [API_KEY]
+}
+
+await fetch("https://auth.emilfolino.se/users", {
+    body: JSON.stringify(user),
+    headers: {
+        'content-type': 'application/json'
+    },
+    method: 'PUT'
+})
+</code>
+</pre>
+
+
+
     </section>
 
     <section id="data">
